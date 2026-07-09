@@ -1,4 +1,4 @@
-const REST_URL = 'https://restcountries.com/v3.1';
+const REST_URL = 'https://project-3-back-end-jutl.onrender.com/countries';
 
 const getByRegion = async (region) => {
   const res = await fetch(`${REST_URL}/region/${region}`);
@@ -14,4 +14,3 @@ const getByCode = async (code) => {
 };
 
 export { getByRegion, getByCode };
-
