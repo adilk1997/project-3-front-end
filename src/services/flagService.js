@@ -1,7 +1,13 @@
-const REST_URL = 'https://project-3-back-end-jutl.onrender.com/countries';
+const BASE_URL = `${import.meta.env.VITE_BACK_END_SERVER_URL}/countries`;
+
+const authHeaders = () => ({
+  Authorization: `Bearer ${localStorage.getItem('token')}`,
+});
 
 const getByRegion = async (region) => {
-  const res = await fetch(`${REST_URL}/region/${region}`);
+  const res = await fetch(`${BASE_URL}/external/region/${encodeURIComponent(region)}`, {
+    headers: authHeaders(),
+  });
 
   if (!res.ok) {
     throw new Error('Failed to fetch flags data');
@@ -11,15 +17,15 @@ const getByRegion = async (region) => {
 };
 
 const getByCode = async (code) => {
-  const res = await fetch(`${REST_URL}/alpha/${code}`);
+  const res = await fetch(`${BASE_URL}/external/alpha/${encodeURIComponent(code)}`, {
+    headers: authHeaders(),
+  });
 
   if (!res.ok) {
     throw new Error('Failed to fetch country detail');
   }
 
-  const data = await res.json();
-
-  return Array.isArray(data) ? data[0] : data;
+  return await res.json();
 };
 
 export { getByRegion, getByCode };
